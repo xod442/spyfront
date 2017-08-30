@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to SpyFront{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% include "navbar.html" %}
+
+{% block content %}
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+
+      <div class="container">
+        <h1>spyFront</h1>
+        <p>A graphical front end for spyMongo</p>
+        <hr>
+        <img src="{{ url_for('static', filename='assets/spyback.jpg') }}" width="500"  heights="250"/>
+        {{ string }}
+
+    </div>
+
+
+{% endblock %}

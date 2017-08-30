@@ -1,0 +1,8 @@
+edge_port
+mlag_portseed and mlag_portseed + 1
+
+near_peer and far_peer flip postitions through the loop
+
+
+static channel-group = 2000
+vlan = 4096

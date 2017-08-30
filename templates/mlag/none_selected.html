@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to Subway{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="row">
+  <BR><BR><BR><BR><BR>
+
+<h2>Please select from all dropdowns Reselect</h2>
+<form action = "{{ url_for('main_app.main') }}" method = "get">
+  {{ switch_list }}
+
+  {{ skippy }}
+
+    <hr>
+    <p> Please use the BACK function and reselect </p>
+</from>
+<hr>
+<button type="submit" class="btn btn-warning btn-sm btn-block">Main Menu</button>
+{% endblock %}

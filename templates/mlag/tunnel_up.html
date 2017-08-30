@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to Subway{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="row">
+<BR><BR><BR><BR><BR>
+<h2> New VxLAN tunnels have been created</h2>
+<form action = "{{ url_for('main_app.main') }}" method = "get">
+<div class="container">
+<h3>The following switches have had their existing vxlan interfaces updated</h3>
+{%  for switch in modified %}
+{{ switch }}<BR>
+{% endfor %}
+<h3>The following switches have new vxlans</h3>
+{%  for switch in new %}
+{{ switch }}<BR>
+{% endfor %}
+
+</div>
+    <hr>
+    <p> Please retun to main menu </p>
+</from>
+<hr>
+<button type="submit" class="btn btn-warning btn-sm btn-block">Main Menu</button>
+{% endblock %}

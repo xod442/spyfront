@@ -1,0 +1,12 @@
+!
+vlan {{ vx.vni.vlan }}
+!
+interface Vxlan1
+ vxlan source-interface {{ vx.sint }}
+ vxlan udp-port 4789
+ vxlan vlan {{ vx[0].vni.vlan }} vni {{ vx[0].vni.vni }}
+ vxlan vlan {{ vx.mod_floods[0].vlan }} flood vtep {{ vx.mod_floods[0].floods }}
+
+ {{ vx }}
+!
+end

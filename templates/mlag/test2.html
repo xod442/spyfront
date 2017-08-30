@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to Antigua{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="row">
+
+<h2> Select Project</h2>
+
+  <p> test vars rick </p>
+    {{ test }}
+    <br>
+    <hr>
+    <button type="submit" class="btn btn-success btn-sm btn-block">Open Project</button>
+</form>
+{% endblock %}

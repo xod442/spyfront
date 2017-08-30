@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to spyFront{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="row">
+<h1> Networks</h1>
+<p>A list of networks form the spyMongo database</p>
+<form action = "{{ url_for('main_app.main') }}" method = "get">
+<div class="container">
+  <table class="table">
+   <thead><tr>
+    <th>Name</th><th>VLAN</th><th>Type</th><th>Smart</th><th>Description</th><th>Status</th><th>State</th><th>Purpose</th>
+  </tr></thead>
+  <tbody>
+  {% for i in networks %}
+    <tr>
+      <td>{{ i.name }}</td>
+      <td>{{ i.vlanId }}</td>
+      <td>{{ i.ethernetNetworkType }}</td>
+      <td>{{ i.smartLink }}</td>
+      <td>{{ i.description }}</td>
+      <td>{{ i.status }}</td>
+      <td>{{ i.state }}</td>
+      <td>{{ i.purpose }}</td>
+
+
+    </tr>
+  </tbody>
+
+     {% endfor %}
+    </table>
+</div>
+</form>
+    <hr>
+    <p> Please retun to main menu </p>
+</from>
+<hr>
+<button type="submit" class="btn btn-info btn-sm btn-sm">Main Menu</button>
+{% endblock %}

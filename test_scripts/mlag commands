@@ -1,0 +1,44 @@
+# Configure the mlag link ports
+interface eth1-2
+channel-group 2000 mode active
+interface port-channel 2000
+switchport mode trunk
+
+# Define the vlan 
+vlan 4094
+trunk group mlagpeer
+interface port-channel 2000
+switchport trunk group mlagpeer
+exit
+
+# Vlan interface needs pere-to-perr ip's
+no spanning-tree vlan 4094
+interface vlan 4094
+ip address 10.100.10.1/30
+no autostate
+exit
+
+# Configure the mlag
+mlag configuration
+local-interface vlan 4094
+peer-address 10.100.10.2
+peer-link port-channel 2000
+domain-id mlagDomain
+heartbeat-interval 2500
+reload-delay 500
+
+#Configure edge link ports Same mlag number on bother switches
+interface eth3
+channel-group 3 mode active
+interface port-channel 3
+mlag 3
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Help{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+
+<ul class="flashes">
+    {% for message in messages %}
+    <p style=  "color:#ff0000;">
+    <li>{{ message}}</li>
+    {% endfor %}
+
+</ul>
+
+{% endif %}
+
+{% endwith %}
+
+<BR><BR><BR><BR><BR><BR><BR>
+
+<div class="col-xs-10">
+    <h1>Help for Subway</h1>
+    <p> Subway help information</p>
+    <p>
+    <h3> Assumptions </h3>
+    <p> In order for Subway to function properly, you need to initialize the databases from the
+    main menu bar.</p>
+
+    <p>YOU NEED ARISTA'S CLOUD VISION PORTAL With the switches in the CVP inventory</p>
+
+    <p>There are two different mongo databases used. One is for the VXLAN information and the other
+      is for the Inventory of switches. This information is mostly pulled from Arista's Cloud Vision Portal<p>
+
+      <b>Current Behavior</b><br>
+
+      This application allows the user to build point to point vxlans and multipoint vxlans<br><hr>
+
+
+  </div>
+
+</div>
+{% endblock %}

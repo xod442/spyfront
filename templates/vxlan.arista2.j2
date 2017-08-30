@@ -1,0 +1,11 @@
+!{% for i in vx.vni %}
+vlan {{ i.vlan }} {% endfor %}
+!
+interface Vxlan1
+ vxlan source-interface {{ vx.sint }}
+ vxlan udp-port 4789{% for i in vx.vni %}
+ vxlan vlan {{ i.vlan }} vni {{ i.vni }}{% endfor %}{% for i in vx.mod_floods %}
+ vxlan vlan {{ i.vlan }} flood vtep {{ i.floods }}
+ {% endfor %}
+!
+end

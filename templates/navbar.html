@@ -1,0 +1,46 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('main_app.main') }}">
+                <p>Home</p>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <div class="row">
+                <ul class="nav nav-tabs">
+
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sync
+                       <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+
+                          <li><a href="{{ url_for('init_app.init') }}">Sync OV DB</a></li>
+                      </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Show/List
+                       <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('init_app.show_networks') }}">Show Networks</a></li>
+                        <li><a href="{{ url_for('init_app.show_network_sets') }}">Show Network-Sets</a></li>
+                        <li><a href="{{ url_for('init_app.show_lig') }}">Show LIG</a></li>
+                      </ul>                
+                  </li>
+
+                   <li>
+                       <a href="http://www.wookieware.com" class="navbar-link">About</a></p>
+                   </li>
+                   <li>
+                       <a href="help" class="navbar-link">Help!</a></p>
+                   </li>
+                   <li>
+                       <a href="logout" class="navbar-link">logout</a></p>
+                   </li>
+
+                </li>
+              </ul>
+            </ul>
+        </div>
+    </div>
+</nav>

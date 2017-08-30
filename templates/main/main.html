@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to spyFront{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+
+      <div class="container">
+        <hr>
+        <h2>SpyFront: Mongo Database tool for OneView state change message bus</h2>
+        <p>Update and process state changes from OneView</p>
+        <form action = "/init" method = "post">
+          <hr>
+          <p>OneView IP: <input type=text  id="ov_host" class="form-control" placeholder="10.1.1.1"  name="ovip"></p>
+          <p>OneView User: <input type=text  id="ov_user" class="form-control" placeholder="OV User Id"  name="ov_user"></p>
+          <p>OneView Password: <input type="password" id="ov_passwd" class="form-control" placeholder="Password" required name="ov_word"></p>
+          <button class="btn btn-primary btn-sm" type="submit">Start Application</button>
+        </form>
+    </div>
+
+{% endblock %}

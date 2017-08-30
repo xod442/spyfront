@@ -1,0 +1,33 @@
+vlan 4094
+   trunk group mlagpeer
+!
+interface Port-Channel3
+   mlag 3
+!
+interface Port-Channel2000
+   switchport mode trunk
+   switchport trunk group mlagpeer
+!
+interface Ethernet1
+   channel-group 2000 mode active
+!
+interface Ethernet2
+   channel-group 2000 mode active
+!
+interface Ethernet3
+   channel-group 3 mode active
+
+interface Vlan4094
+   no autostate
+   ip address 10.100.10.1/30
+
+!
+mlag configuration
+   domain-id mlagDomain
+   heartbeat-interval 2500
+   local-interface Vlan4094
+   peer-address 10.100.10.2
+   peer-link Port-Channel2000
+   reload-delay 500
+
+

@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %}Welcome to Subway{% endblock %}
+
+{% block header %}<link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="row">
+<BR><BR><BR><BR><BR>
+<h2>point2point VxLAN Tunnel</h2>
+
+  <h4><p> Select the FROM and TO switches for the tunnel. Enter VLAN</p></h4>
+
+  <form  method="POST" action="/new_tunnel">
+
+    <p>VLAN: <input type=text  id="vlan" class="form-control" placeholder="102"  required name="vlan"></p>
+    <table class="table">
+
+    <tbody>
+      <tr>
+
+   <td><div class="form-group">
+ <label for="sel1">Select list:</label>
+ <select class="form-control" id="sel1" name ="from_ip" multiple="multiple">
+              <option value='no select'>None selected</option>
+            {% for switch in switch_list %}
+              <option value={{switch}}>{{switch}}</option>
+              {% endfor %}
+    </select></td>
+
+      <td><div class="form-group">
+    <label for="sel1">Select list:</label>
+    <select class="form-control" id="sel1" name ="to_ip" multiple="multiple">
+            <option value='no select'>None selected</option>
+            {% for switch in switch_list %}
+              <option value={{switch}}>{{switch}}</option>
+              {% endfor %}
+    </select>
+  </div>
+  </td>
+  </tbody>
+    </table>
+
+  
+
+    <br>
+    <hr>
+    <button type="submit" class="btn btn-warning btn-sm btn-block">Search for VLAN</button>
+</from>
+{% endblock %}

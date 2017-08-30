@@ -1,0 +1,11 @@
+{
+"vlanId" : 3,
+"ethernetNetworkType" : "Tagged",
+"smartLink" : false,
+"name" : "xxx3",
+"description" : null,
+"privateNetwork" : false,
+"status" : "OK",
+"state" : "Active",
+"purpose" : "General",
+}
