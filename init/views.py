@@ -135,5 +135,45 @@ def show_lig():
         error = "Failed to read the LIG database"
         return render_template('init/dberror.html', error=error)
 
+    # Parse the lig info..it will be a List...make some list to store info
+    link = []
+    links = []
+    newNets = []
+    lig_data = []
+    lig_list = []
+    # print c7000/Synergy port configurations
 
-    return render_template('init/show_lig.html', ligs=ligs)
+    for i in ligs:
+        name = i['name']
+        desc = i['description']
+        state = i['state']
+        for j in i['uplinkSets']:
+            for k in j['logicalPortConfigInfos']:
+                for l in k['logicalLocation']['locationEntries']:
+                    ident = l['type']
+                    value = l['relativeValue']
+                    info = ident+'-'+str(value)
+                    link.append(info)
+                    link.sort()
+                links.append(link)
+                link = []
+        sets = links            # List of uplinks ports on frame
+
+        for vlan in j['networkUris']:
+            try:
+                # Read all vlan records
+                result = db.vlan.find({'uri': vlan})
+            except:
+                error = "Failed to read the vlan database resolve network uri"
+                return render_template('init/dberror.html', error=error, i = vlan)
+            for x in result:
+                netName = x['name']
+                vlanId = x['vlanId']
+                network = netName+'-'+str(vlanId)
+                newNets.append(network)
+
+
+        lig_data = [name,desc,state,newNets,sets]
+        lig_list.append(lig_data)
+
+    return render_template('init/show_lig.html', lig_list=lig_list )
