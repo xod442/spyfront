@@ -12,8 +12,8 @@
 <div class="row">
 <h1> Network Sets</h1>
 <p>A list of network-sets from the spyMongo database</p>
-<form action = "{{ url_for('main_app.main') }}" method = "get">
 <div class="container">
+<form action = "{{ url_for('main_app.mainx') }}" method = "get">
   <table class="table">
    <thead><tr>
     <th>Name</th><th>Category</th><th>Description</th><th>Status</th><th>State</th>
@@ -26,19 +26,15 @@
       <td>{{ i.description }}</td>
       <td>{{ i.status }}</td>
       <td>{{ i.state }}</td>
-
-
-
     </tr>
   </tbody>
 
      {% endfor %}
     </table>
-</div>
-</form>
     <hr>
     <p> Please retun to main menu </p>
-</from>
 <hr>
 <button type="submit" class="btn btn-info btn-sm btn-sm">Main Menu</button>
+</form>
 {% endblock %}
+</div>

@@ -23,7 +23,7 @@ __maintainer__ = "Rick Kauffman"
 __email__ = "rick@rickkauffman.com"
 __status__ = "Prototype"
 
-Flask script that manages ansible variables for Arista Switches
+Flask script that syncronizes the OneView Database and brings parity to spymongo
 
 # Read single example
 # x = db.vlan.find_one({"vlanId" : 399})
@@ -56,13 +56,13 @@ def sync():
     db = client.creds
 
     try:
-        # define the collections
+        # search for credentials
         auth_info = db.keyz.find()
     except:
         error = "Failed to get credentials from database"
         return render_template('sync/autherror.html', error=error)
 
-    # Assign the local variable
+    # The above search returns a list. Assign the local variable
     ovip = auth_info[0]['ovip']
     ov_user = auth_info[0]['ov_user']
     ov_word = auth_info[0]['ov_word']
@@ -97,7 +97,7 @@ def sync():
 
     # netsets
     try:
-        # Get all, etheret-networks and write to the vlan collection
+        # Get all, net-sets and write to the net-set collection
         sets = oneview_client.network_sets.get_all()
         for setz in sets:
             netsets.insert(setz)
@@ -107,7 +107,7 @@ def sync():
 
     # logical interconnect group
     try:
-        # Get all, etheret-networks and write to the vlan collection
+        # Get all, logical interconnect groups and write to the lig collection
         ligz = oneview_client.logical_interconnect_groups.get_all()
         for lig in ligz:
             ligs.insert(lig)

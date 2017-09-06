@@ -65,9 +65,10 @@ def init():
     ov_user = request.form['ov_user']
     ov_word = request.form['ov_word']
 
+    # Create a document to store in mongo
     creds = {"ovip" : ovip, "ov_user" : ov_user, "ov_word" : ov_word}
 
-    # Test the creds against the ip address
+    # Test the creds against the ip address. Try to access OneView with creds.
     try:
         config = {
             "ip": ovip,
@@ -121,7 +122,7 @@ def show_networks():
 @init_app.route('/show_network_sets', methods=('GET', 'POST'))
 def show_network_sets():
     '''
-    # Reports on vlans learned from OneView
+    # Reports on network-sets learned from OneView
     '''
     client = MongoClient('mongo', 27017)
 
@@ -129,7 +130,7 @@ def show_network_sets():
     db = client.pov2
 
     try:
-        # Read all vlan records
+        # Read all netset records
         network_sets = db.netset.find()
 
     except:
@@ -142,7 +143,7 @@ def show_network_sets():
 @init_app.route('/show_lig', methods=('GET', 'POST'))
 def show_lig():
     '''
-    # Reports on vlans learned from OneView
+    # Reports on locical interconnect groups learned from OneView
     '''
     client = MongoClient('mongo', 27017)
 
@@ -150,20 +151,20 @@ def show_lig():
     db = client.pov2
 
     try:
-        # Read all vlan records
+        # Read all lig records
         ligs = db.lig.find()
 
     except:
         error = "Failed to read the LIG database"
         return render_template('init/dberror.html', error=error)
 
-    # Parse the lig info..it will be a List...make some list to store info
+    # Parse the lig info..it will be a List...make some lists to store info
     link = []
     links = []
     newNets = []
     lig_data = []
     lig_list = []
-    # print c7000/Synergy port configurations
+    # process ligs to find port information
 
     for i in ligs:
         name = i['name']
@@ -180,10 +181,11 @@ def show_lig():
                 links.append(link)
                 link = []
         sets = links            # List of uplinks ports on frame
+        links = []
 
         for vlan in j['networkUris']:
             try:
-                # Read all vlan records
+                # Read all vlan records, look for matching uri
                 result = db.vlan.find({'uri': vlan})
             except:
                 error = "Failed to read the vlan database resolve network uri"
