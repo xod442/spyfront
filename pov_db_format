@@ -1,11 +1,44 @@
+Representation of a vlan or ethernet-network
 {
-"vlanId" : 3,
-"ethernetNetworkType" : "Tagged",
-"smartLink" : false,
-"name" : "xxx3",
-"description" : null,
-"privateNetwork" : false,
-"status" : "OK",
-"state" : "Active",
-"purpose" : "General",
+	"_id" : ObjectId("59af1f1f80b25a003cdf22ef"),
+	"state" : "Active",
+	"uri" : "/rest/ethernet-networks/4b359f46-710e-4418-a0b3-c88434bcc644",
+	"fabricUri" : "/rest/fabrics/a4ab21c2-b121-4801-aacf-746b5576bb1a",
+	"privateNetwork" : false,
+	"category" : "ethernet-networks",
+	"purpose" : "General",
+	"vlanId" : 12,
+	"ethernetNetworkType" : "Tagged",
+	"subnetUri" : null,
+	"status" : "OK",
+	"eTag" : "a6a35b88-7225-45fb-9615-44e0c6e13221",
+	"description" : null,
+	"name" : "6112",
+	"smartLink" : false,
+	"modified" : "2017-08-29T22:20:49.010Z",
+	"created" : "2017-08-29T22:20:49.005Z",
+	"type" : "ethernet-networkV300",
+	"connectionTemplateUri" : "/rest/connection-templates/a34a8b24-ddc4-4b72-9671-26f39eb3812d",
+	"scopeUris" : [ ]
+}
+
+Representation of a network-set
+{
+	"_id" : ObjectId("59a984734bb09c000183a308"),
+	"category" : "network-sets",
+	"name" : "sparky2",
+	"state" : "Active",
+	"type" : "network-set",
+	"connectionTemplateUri" : "/rest/connection-templates/8c2e4a78-32f4-41ce-97a8-3ef9a34711e9",
+	"nativeNetworkUri" : null,
+	"description" : null,
+	"networkUris" : [
+		"/rest/ethernet-networks/6be92822-4b0a-4ec5-af1e-24896ad4a4a3",
+		"/rest/ethernet-networks/979c57a2-3eb4-4393-ba95-fc4eb896a615"
+	],
+	"uri" : "/rest/network-sets/958459a4-a63e-497d-b758-60b956788f55",
+	"status" : "OK",
+	"modified" : "2017-09-01T16:00:59.658Z",
+	"eTag" : "f491b46b-472a-41fd-a2a8-ecb40118e483",
+	"created" : "2017-09-01T16:00:59.656Z"
 }

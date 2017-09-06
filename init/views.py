@@ -23,7 +23,7 @@ __maintainer__ = "Rick Kauffman"
 __email__ = "rick@rickkauffman.com"
 __status__ = "Prototype"
 
-Flask script that manages ansible variables for Arista Switches
+Flask script that manages mongo database tables
 
 # Read single example
 # x = db.vlan.find_one({"vlanId" : 399})
@@ -41,6 +41,7 @@ from werkzeug import secure_filename
 import pymongo
 from pymongo import MongoClient
 from jinja2 import Environment, FileSystemLoader, Template
+from hpOneView.oneview_client import OneViewClient
 
 init_app = Blueprint('init_app', __name__)
 
@@ -49,6 +50,7 @@ def init():
     '''
     Create a Mongo database to store the user credentials
     '''
+
     # Create client connector (db is running in a container)
     client = MongoClient('mongo', 27017)
 
@@ -65,6 +67,25 @@ def init():
 
     creds = {"ovip" : ovip, "ov_user" : ov_user, "ov_word" : ov_word}
 
+    # Test the creds against the ip address
+    try:
+        config = {
+            "ip": ovip,
+            "credentials": {
+                "userName": ov_user,
+                "password": ov_word
+            }
+        }
+        # Create a client
+        oneview_client = OneViewClient(config)
+
+        # Get all, with defaults
+        ethernet_nets = oneview_client.ethernet_networks.get_all()
+
+    except:
+        error = "Invlaid Username or Password"
+        return render_template('init/autherror.html', error=error, e=ov_user)
+
     # Save the record
     try:
         app_keys.insert(creds)
@@ -73,12 +94,13 @@ def init():
         error = "Failed in the Creds database write"
         return render_template('init/dberror.html', error=error)
 
+
     return render_template('main/mainx.html')
 
 @init_app.route('/show_networks', methods=('GET', 'POST'))
 def show_networks():
     '''
-    Reports on vlans learned from OneView
+    # Reports on vlans learned from OneView
     '''
     client = MongoClient('mongo', 27017)
 
@@ -99,7 +121,7 @@ def show_networks():
 @init_app.route('/show_network_sets', methods=('GET', 'POST'))
 def show_network_sets():
     '''
-    Reports on vlans learned from OneView
+    # Reports on vlans learned from OneView
     '''
     client = MongoClient('mongo', 27017)
 
@@ -120,7 +142,7 @@ def show_network_sets():
 @init_app.route('/show_lig', methods=('GET', 'POST'))
 def show_lig():
     '''
-    Reports on vlans learned from OneView
+    # Reports on vlans learned from OneView
     '''
     client = MongoClient('mongo', 27017)
 

@@ -17,4 +17,7 @@ def create_app(**config_overrides):
     from init.views import init_app
     app.register_blueprint(init_app)
 
+    from syncdb.views import sync_app
+    app.register_blueprint(sync_app)
+
     return app

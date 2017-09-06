@@ -2,6 +2,8 @@
 
 # Running the application
 
+MUST BE RUN ON A DOCKER HOST!!!
+
                   _     _                _                                      _            _                                    _     _
   /\/\  _   _ ___| |_  | |__   ___    __| | ___  _ __   ___    ___  _ __     __| | ___   ___| | _____ _ __   _ __ ___   __ _  ___| |__ (_)_ __   ___
  /    \| | | / __| __| | '_ \ / _ \  / _` |/ _ \| '_ \ / _ \  / _ \| '_ \   / _` |/ _ \ / __| |/ / _ \ '__| | '_ ` _ \ / _` |/ __| '_ \| | '_ \ / _ \
@@ -15,7 +17,7 @@
 | OneView |<->| spymongo |-->|mongodb|<--|spyfront|
 |         |   |          |   |       |   |        |
 +---------+   +----------+   +-------+   +--------+
-                 APP		        DB	        WEB	
+                 APP		        DB	        WEB
 
 - Checkout code on https://github.com/xod442/spymfront.git save it on the /opt directory on your docker machine.
 

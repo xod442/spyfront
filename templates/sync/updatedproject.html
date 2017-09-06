@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Record Update{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+
+<div class="col-xs-10">
+
+    <h3>Update Project Record</h3>
+    <form action = "{{ url_for('main_app.main') }}" method = "get">
+    <h2> Project successfully updated in database!</h2>
+    <p> Please return to the main menu </p>
+
+
+  </div>
+</from>
+<hr>
+<button type="submit" class="btn btn-success btn-sm btn-block">Main Menu</button>
+
+</div>
+{% endblock %}
