@@ -20,4 +20,7 @@ def create_app(**config_overrides):
     from syncdb.views import sync_app
     app.register_blueprint(sync_app)
 
+    from vmz.views import vmz_app
+    app.register_blueprint(vmz_app)
+
     return app

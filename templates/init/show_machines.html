@@ -10,30 +10,33 @@
 {% include "navbar.html" %}
 
 <div class="row">
-<h1> Networks</h1>
-<p>A list of networks from the spyMongo database</p>
+<h1> Virtual Machines</h1>
+<p>A list of VMs from the spyMongo database</p>
 <div class="container">
 <form action = "{{ url_for('main_app.mainx') }}" method = "get">
   <table class="table">
    <thead><tr>
-    <th>Name</th><th>VLAN</th><th>Type</th><th>Smart</th><th>Description</th><th>Status</th><th>State</th><th>Purpose</th>
+    <th>Name</th><th>Status/th><th>Adapter 1</th><th>Adapter 2</th><th>Adapter 3</th><th>Adapter 4</th>
   </tr></thead>
   <tbody>
-  {% for i in networks %}
+    {% for i in machine %}
     <tr>
       <td>{{ i.name }}</td>
-      <td>{{ i.vlanId }}</td>
-      <td>{{ i.ethernetNetworkType }}</td>
-      <td>{{ i.smartLink }}</td>
-      <td>{{ i.description }}</td>
       <td>{{ i.status }}</td>
-      <td>{{ i.state }}</td>
-      <td>{{ i.purpose }}</td>
+        {% for j in i.links %}
+        <td><ul>
+            <li>{{ j[0] }}</li>
+            <li>{{ j[1] }}</li>
+            <li>{{ j[2] }}</li>
+        </ul></td>
+        {% endfor %}
+
 
      {% endfor %}
     </tr>
   </tbody>
     </table>
+
     <hr>
     <p> Please retun to main menu </p>
 <hr>

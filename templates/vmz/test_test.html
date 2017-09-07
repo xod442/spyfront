@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+
+{% include "navbar.html" %}
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+
+<ul class="flashes">
+    {% for message in messages %}
+    <p style=  "color:#ff0000;">
+    <li>{{ message}}</li>
+    {% endfor %}
+
+</ul>
+
+{% endif %}
+
+{% endwith %}
+
+<BR><BR><BR><BR><BR>
+
+<div class="col-xs-10">
+    <h3>Render Test</h3>
+
+  {{ string }}
+
+
+
+  </div>
+
+</div>
+{% endblock %}
