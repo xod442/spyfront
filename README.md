@@ -21,9 +21,9 @@ MUST BE RUN ON A DOCKER HOST!!!
 
 - Checkout code on https://github.com/xod442/spymfront.git save it on the /opt directory on your docker machine.
 
-`      - cd /opt
-`      - git clone https://github.com/xod442/spyfront.git
-`      - cd spyfront
+      - cd /opt
+      - git clone https://github.com/xod442/spyfront.git
+      - cd spyfront
 
 spyFront is a graphical utility for viewing the mongo database entries from spymongo.
 
