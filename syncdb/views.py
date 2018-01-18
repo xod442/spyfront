@@ -78,7 +78,7 @@ def sync():
     # Switch to the main database
     db = client.pov2
 
-    # define the collections
+    # define the mongo collections
     vlans = db.vlan
     netsets = db.netset
     ligs = db.lig

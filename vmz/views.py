@@ -67,7 +67,7 @@ def vminit():
 
     machines = getvminfo.main(vmip,vm_user,vm_word)
 
-    if 'machines' in db.collection_names:
+    if machines[0] in db.collection_names:
             return render_template('init/database.html', hint='db.exists')
 
     else:

@@ -1,0 +1,158 @@
+#!/usr/bin/env python
+#
+# cpaggen - May 16 2015 - Proof of Concept (little to no error checks)
+#  - rudimentary args parser
+#  - GetHostsPortgroups() is quite slow; there is probably a better way
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from __future__ import print_function
+from pyVim.connect import SmartConnectNoSSL, Disconnect
+from pyVmomi import vim
+import atexit
+import sys
+
+
+def GetVMHosts(content):
+    print("Getting all ESX hosts ...")
+    host_view = content.viewManager.CreateContainerView(content.rootFolder,
+                                                        [vim.HostSystem],
+                                                        True)
+    obj = [host for host in host_view.view]
+    host_view.Destroy()
+    return obj
+
+
+def GetVMs(content):
+    print("Getting all VMs ...")
+    vm_view = content.viewManager.CreateContainerView(content.rootFolder,
+                                                      [vim.VirtualMachine],
+                                                      True)
+    obj = [vm for vm in vm_view.view]
+    vm_view.Destroy()
+    return obj
+
+
+def GetHostsPortgroups(hosts):
+    print("Collecting portgroups on all hosts. This may take a while ...")
+    hostPgDict = {}
+    for host in hosts:
+        pgs = host.config.network.portgroup
+        hostPgDict[host] = pgs
+        print("\tHost {} done.".format(host.name))
+    print("\tPortgroup collection complete.")
+    return hostPgDict
+
+
+def PrintVmInfo(vm):
+    vmPowerState = vm.runtime.powerState
+    vmx = {"name" : vm.name, "status" : vmPowerState}
+    #print("Found VM:", vm.name + " - Satus: " + vmPowerState)
+    vm_mach = GetVMNics(vm,vmx)
+    return (vm_mach)
+
+
+def GetVMNics(vm,vmx):
+    linkz = []
+    machines = []
+    for dev in vm.config.hardware.device:
+        if isinstance(dev, vim.vm.device.VirtualEthernetCard):
+            dev_backing = dev.backing
+            portGroup = None
+            vlanId = None
+            vSwitch = None
+            if hasattr(dev_backing, 'port'):
+                portGroupKey = dev.backing.port.portgroupKey
+                dvsUuid = dev.backing.port.switchUuid
+                try:
+                    dvs = content.dvSwitchManager.QueryDvsByUuid(dvsUuid)
+                except:
+                    portGroup = "** Error: DVS not found **"
+                    vlanId = "NA"
+                    vSwitch = "NA"
+                else:
+                    pgObj = dvs.LookupDvPortGroup(portGroupKey)
+                    portGroup = pgObj.config.name
+                    vlanId = str(pgObj.config.defaultPortConfig.vlan.vlanId)
+                    vSwitch = str(dvs.name)
+            else:
+                portGroup = dev.backing.network.name
+                vmHost = vm.runtime.host
+                # global variable hosts is a list, not a dict
+                host_pos = hosts.index(vmHost)
+                viewHost = hosts[host_pos]
+                # global variable hostPgDict stores portgroups per host
+                pgs = hostPgDict[viewHost]
+                for p in pgs:
+                    if portGroup in p.key:
+                        vlanId = str(p.spec.vlanId)
+                        vSwitch = str(p.spec.vswitchName)
+            if portGroup is None:
+                portGroup = 'NA'
+            if vlanId is None:
+                vlanId = 'NA'
+            if vSwitch is None:
+                vSwitch = 'NA'
+            if len(vlanId) > 4:
+                vlanId = 'RANGE 1-4093'
+            links = [dev.deviceInfo.label,dev.macAddress,vlanId]
+            linkz.append(links)
+            #print('\t' + dev.deviceInfo.label + '->' + dev.macAddress +
+                  #' VLAN ' + vlanId + '')
+
+        links = []
+    vmx.update({"links" : linkz})
+    return (vmx)
+
+def main():
+    global content, hosts, hostPgDict, vmx
+    vmx = {}
+    machines = []
+    host = '10.1.8.112'
+    user = 'administrator@dca.hpe.local'
+    password = 'Welcome2hp!'
+    serviceInstance = SmartConnectNoSSL(host=host,
+                                   user=user,
+                                   pwd=password)
+
+    atexit.register(Disconnect, serviceInstance)
+    content = serviceInstance.RetrieveContent()
+    hosts = GetVMHosts(content)
+    hostPgDict = GetHostsPortgroups(hosts)
+    try:
+        vms = GetVMs(content)
+    except:
+        print ('BS')
+    for vm in vms:
+        virt_obj = PrintVmInfo(vm)
+        machines.append(hostPgDict)
+    '''
+    f = open('simplefile','w')
+    x = machines[0]
+    f.write(x)
+    f.close()
+
+
+    print (machines[0]['vim.HostSystem:host-17'])
+    print (type(machines[0]))
+    print (len(machines[0]))
+    '''
+
+    for key, value in machines[0].iteritems():
+        print (key)
+        print (vim.host.PortGroup['key'])
+        print (type(vim.host.PortGroup))
+
+# Main section
+if __name__ == "__main__":
+    sys.exit(main())
